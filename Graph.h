@@ -366,39 +366,39 @@ void Graph<NodeType, ArcType>::breadthFirstSearch( Node* pNode, void (*pProcess)
 }
 
 template<class NodeType, class ArcType>
-void Graph<NodeType, ArcType>::UniformCostSearch( Node* pNode, Node* target , std::vector<Node*> &path ) {
-	GraphNode<NodeType, ArcType>* targetNode;
-	priority_queue<Node*, vector<Node*>, NodeSearchCostComparer> priorityQueue; 
-	priorityQueue.push( pNode );
-	priorityQueue.top()->data().second = 0;
-	priorityQueue.top()->setMarked(true);
+void Graph<NodeType, ArcType>::UniformCostSearch( Node* pNode, Node* target, std::vector<Node*> &path ) {
+	GraphNode<NodeType, ArcType>* targetNode;	// pointer to the targetNode;
+	priority_queue<Node*, vector<Node*>, NodeSearchCostComparer> priorityQueue;		// priority queue for the path;
+	priorityQueue.push( pNode );				// push the starting node to the empty queue;
+	priorityQueue.top()->data().second = 0;		// set the cost to visit the first node to 0;
+	priorityQueue.top()->setMarked(true);		// mark the starting node/first node in priorityQueue;
 
-	while( priorityQueue.size() != 0 && priorityQueue.top() != target ) { 
-		list<Arc>::const_iterator iter = priorityQueue.top()->arcList().begin();
-		list<Arc>::const_iterator endIter = priorityQueue.top()->arcList().end();
-		for( ; iter != endIter; iter++ ) {
-			 if((*iter).node() != priorityQueue.top()->getPreviousPointer()) {
-				 int childDist = (*iter).weight() + priorityQueue.top()->data().second;
-				 if ( childDist < (*iter).node()->data().second) {
-					 (*iter).node()->data().second = childDist;
-					 (*iter).node()->setPreviousPointer(priorityQueue.top());
+	while( priorityQueue.size() != 0 && priorityQueue.top() != target ) {			// while the queue size is not 0, AND the first node in the queue is not the target node;
+		list<Arc>::const_iterator iter = priorityQueue.top()->arcList().begin();	// get an iterator with a list of arcs from the first node in the queue;
+		list<Arc>::const_iterator endIter = priorityQueue.top()->arcList().end();	// make an end iterator
+		for( ; iter != endIter; iter++ ) {      // while iter is not pointing to the same node as the endIter;
+			 if((*iter).node() != priorityQueue.top()->getPreviousPointer()) {      // if the node iter is pointing to is not equal to the first node in the queue's previous pointer, i.e its a child of the node and not the node we just checked;
+				 int childDist = (*iter).weight() + priorityQueue.top()->data().second;		// distance = weight of iter + the first node in priorityQueue's weight;
+				 if ( childDist < (*iter).node()->data().second) {      // if distance is less than the weight of iters node *WHICH IS INT_MAX*;
+					 (*iter).node()->data().second = childDist;			// the cost to the node iter is pointing at is now the distance traveled;
+					 (*iter).node()->setPreviousPointer(priorityQueue.top());		// iters node now points to the first node in the queue as its previous node;
 				 }
-				 if ((*iter).node()->marked() == false ) {
-					 (*iter).node()->setMarked(true);
-					 priorityQueue.push( (*iter).node() );
+				 if ((*iter).node()->marked() == false ) {      // if the iters node is not marked;
+					 (*iter).node()->setMarked(true);			// mark it
+					 priorityQueue.push( (*iter).node() );		// make iters node the first node in priorityQueue;
 				 }
 			 }
 		}
-		priorityQueue.pop();
+		priorityQueue.pop();	
+	}	//traversing the path in reverse oreder
+	targetNode = priorityQueue.top();	// targetNode = the targets previous node;
+	path.push_back(targetNode);			// push targetNode into the path
+	while (targetNode->getPreviousPointer() != NULL )  {    // while the targetNodes previous pointer is not NULL;
+		cout << targetNode->data().first << endl;			// print targetNodes Name;
+		path.push_back(targetNode->getPreviousPointer());	// make the next node in the path the current nodes previous node;
+		targetNode = targetNode->getPreviousPointer();		// targetNode now equals its previous node;
 	}
-	targetNode = priorityQueue.top();
-	path.push_back(targetNode);
-	while (targetNode->getPreviousPointer() != NULL )  {
-		cout << targetNode->data().first << endl;
-		path.push_back(targetNode->getPreviousPointer());
-		targetNode = targetNode->getPreviousPointer();
-	}
-	cout << pNode->data().first << endl;
+	cout << pNode->data().first << endl;		// print the starting nodes Name;
 }
 
 
