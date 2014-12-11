@@ -375,7 +375,7 @@ void Graph<NodeType, ArcType>::UniformCostSearch( Node* pNode, Node* target , st
 
 	while( priorityQueue.size() != 0 && priorityQueue.top() != target ) { 
 		list<Arc>::const_iterator iter = priorityQueue.top()->arcList().begin();
-		   list<Arc>::const_iterator endIter = priorityQueue.top()->arcList().end();
+		list<Arc>::const_iterator endIter = priorityQueue.top()->arcList().end();
 		for( ; iter != endIter; iter++ ) {
 			 if((*iter).node() != priorityQueue.top()->getPreviousPointer()) {
 				 int childDist = (*iter).weight() + priorityQueue.top()->data().second;
