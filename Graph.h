@@ -251,8 +251,13 @@ void Graph<NodeType, ArcType>::clearMarks() {
 }
 
 template<class NodeType, class ArcType>
-void Graph<NodeType, ArcType>::resetUCS() {
-	
+void Graph<NodeType, ArcType>::resetUCSNodes() {
+	for (int i = 0 ; i < m_maxNodes ; i ++ ) {
+		if ( m_pNodes[i] != 0 ) {
+			m_pNodes[i]->setData(pair<string, int>(m_pNodes[i]->data().first, INT_MAX));
+			m_pNodes[i]->setPrev(NULL);
+		}
+	}
 }
 
 // ----------------------------------------------------------------
@@ -361,7 +366,7 @@ void Graph<NodeType, ArcType>::breadthFirstSearch( Node* pNode, void (*pProcess)
 }
 
 template<class NodeType, class ArcType>
-void Graph<NodeType, ArcType>::UniformCostSearch( Node* pNode, Node* target , std::vector<Node*> &path) {
+void Graph<NodeType, ArcType>::UniformCostSearch( Node* pNode, Node* target , std::vector<Node*> &path ) {
 
 	GraphNode<NodeType, ArcType>* targetNode;
 
@@ -402,10 +407,6 @@ void Graph<NodeType, ArcType>::UniformCostSearch( Node* pNode, Node* target , st
 	cout << pNode->data().first << endl;
 }
 
-template<class NodeType, class ArcType>
-void Graph<NodeType, ArcType>::UniformCostSearch2( Node* pNode, Node* target , std::vector<Node*> &path) {
-
-}
 
 #include "GraphNode.h"
 #include "GraphArc.h"
