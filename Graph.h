@@ -367,20 +367,16 @@ void Graph<NodeType, ArcType>::breadthFirstSearch( Node* pNode, void (*pProcess)
 
 template<class NodeType, class ArcType>
 void Graph<NodeType, ArcType>::UniformCostSearch( Node* pNode, Node* target , std::vector<Node*> &path ) {
-
 	GraphNode<NodeType, ArcType>* targetNode;
-
 	priority_queue<Node*, vector<Node*>, NodeSearchCostComparer> priorityQueue; 
 	priorityQueue.push( pNode );
 	priorityQueue.top()->data().second = 0;
 	priorityQueue.top()->setMarked(true);
 
 	while( priorityQueue.size() != 0 && priorityQueue.top() != target ) { 
-
-		 list<Arc>::const_iterator iter = priorityQueue.top()->arcList().begin();
-         list<Arc>::const_iterator endIter = priorityQueue.top()->arcList().end();
-         
-		 for( ; iter != endIter; iter++ ) {
+		list<Arc>::const_iterator iter = priorityQueue.top()->arcList().begin();
+		   list<Arc>::const_iterator endIter = priorityQueue.top()->arcList().end();
+		for( ; iter != endIter; iter++ ) {
 			 if((*iter).node() != priorityQueue.top()->getPreviousPointer()) {
 				 int childDist = (*iter).weight() + priorityQueue.top()->data().second;
 				 if ( childDist < (*iter).node()->data().second) {
@@ -392,13 +388,11 @@ void Graph<NodeType, ArcType>::UniformCostSearch( Node* pNode, Node* target , st
 					 priorityQueue.push( (*iter).node() );
 				 }
 			 }
-		 }
-		 priorityQueue.pop();
+		}
+		priorityQueue.pop();
 	}
-
 	targetNode = priorityQueue.top();
 	path.push_back(targetNode);
-	
 	while (targetNode->getPreviousPointer() != NULL )  {
 		cout << targetNode->data().first << endl;
 		path.push_back(targetNode->getPreviousPointer());
