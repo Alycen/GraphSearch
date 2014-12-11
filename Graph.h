@@ -54,7 +54,7 @@ public:
     void removeArc( int from, int to );
     Arc* getArc( int from, int to );        
     void clearMarks();
-	void resetUCS();
+	void resetUCSNodes();
     void depthFirst( Node* pNode, void (*pProcess)(Node*) );
     void breadthFirst( Node* pNode, void (*pProcess)(Node*) );
 	void breadthFirstSearch( Node* pNode, void (*pProcess)(Node*), NodeType target  );
